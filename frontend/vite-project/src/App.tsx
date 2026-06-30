@@ -40,7 +40,7 @@ function App() {
     <div>
       <NavBar />
       <Welcome />
-      <CompanyCard key={companies.id} companies={companies} />
+      <CompanyCard companies={companies} />
       <JobCard />
       <Footer />
     </div>

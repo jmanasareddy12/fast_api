@@ -3,8 +3,16 @@ from routers import job
 from routers import company
 from models import job as job_model, company as company_model
 from database import Base, engine, SessionLocal
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
-print("engine is", job_model.engine)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 #Base.metadata.create_all(bind=job_model.engine)
 app.include_router(company.router)
 app.include_router(job.router

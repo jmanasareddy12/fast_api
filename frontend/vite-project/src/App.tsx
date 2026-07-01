@@ -4,7 +4,7 @@ import CompanyCard from "./components/CompanyCard";
 import JobCard from "./components/JobCard";
 import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
-import { getCompanies } from "./Services/CompanyService";
+import { getCompanies, updateCompany, deleteCompany, createCompany } from "./Services/CompanyService";
 import type { Company } from "./types/company";
 
 function App() {

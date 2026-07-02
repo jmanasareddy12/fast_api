@@ -1,10 +1,13 @@
-# pyrefly: ignore [missing-import]
+import token
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.users import User
+from schemas.user import UserCreate, UserResponse, Login_User
+from schemas.token import Token
 from database import get_db
 from utils.security import hash_password, verify_password
-from schemas.user import UserCreate, UserResponse
+from utils.token import create_access_token
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 @router.post("/register", response_model=UserResponse)
@@ -19,8 +22,8 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     return db_user
 
-@router.post("/login", response_model=UserResponse)
-def login(user: UserCreate, db: Session = Depends(get_db)):
+@router.post("/login", response_model=Token)
+def login(user: Login_User, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
 
     if not existing_user:
@@ -35,4 +38,5 @@ def login(user: UserCreate, db: Session = Depends(get_db)):
             detail="Incorrect password"
         )
 
-    return existing_user
+    access_token=create_access_token(data={"sub": existing_user.id, "role": existing_user.role})
+    return Token(token=access_token, token_type="Bearer")

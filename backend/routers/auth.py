@@ -47,6 +47,6 @@ def login(
     })
 
     return {
-        "token": token,
+        "access_token": token,
         "token_type": "bearer"
     }

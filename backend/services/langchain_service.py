@@ -34,7 +34,9 @@ chat_with_memory=RunnableWithMessageHistory(
     input_messages_key="user_query",
     message_history="chat_history"
 )
-
 def ask_career_advice(session_id: str, user_query: str):
-    response = chat_with_memory.invoke({"user_query": user_query}, {"configurable": {"session_id": session_id}})
-    return response
+    response = chat_with_memory.invoke(
+        {"user_query": user_query},
+        {"configurable": {"session_id": session_id}}
+    )
+    return response.content

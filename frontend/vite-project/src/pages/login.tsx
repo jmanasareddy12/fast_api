@@ -10,16 +10,23 @@ function Login({onLogin, onSwitchToRegister}: Props){
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
 
-    const handleSubmit = async (e:React.FormEvent) => {
-        e.preventDefault();
-        try {
-            const response = await login({email,password});
-            onLogin(response.access_token);
-        } catch (error) {
-            console.error("Error during login:", error);
-            alert("Login failed");  
-        }
-    }   
+    const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log("Email:", email);
+    console.log("Password:", password);
+
+    try {
+        const response = await login({ email, password });
+
+        console.log("Response:", response);
+
+        onLogin(response.access_token);
+    } catch (error) {
+        console.error(error);
+        alert("Login failed");
+    }
+};
     return(
         <form onSubmit={handleSubmit}>
             <h2>Login</h2>

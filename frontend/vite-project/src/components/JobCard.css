@@ -1,0 +1,121 @@
+.jobs-container {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
+}
+
+.job-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    transition: .25s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+.job-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1f2937;
+}
+
+.job-info{
+    margin:10px 0;
+    color:#555;
+}
+
+.job-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.edit-btn{
+    flex:1;
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.delete-btn{
+    flex:1;
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.add-job{
+    margin-top:60px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.add-job input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.add-job button{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+.job-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.edit-btn{
+    flex:1;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.delete-btn{
+    flex:1;
+    background:#ef4444;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#1d4ed8;
+}
+
+.delete-btn:hover{
+    background:#dc2626;
+}

@@ -1,5 +1,6 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import Login from "./pages/login";
@@ -13,8 +14,10 @@ function Root() {
     localStorage.setItem("token", newToken);
     setToken(newToken);
   };
-
-
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  setToken(null);
+};
 
   if (!token) {
     return showRegister ? (
@@ -27,7 +30,11 @@ function Root() {
     );
   }
 
-  return <App />;
+  return (
+    <BrowserRouter>
+      <App onLogout={handleLogout} />
+    </BrowserRouter>
+  );
 }
 
 createRoot(document.getElementById("root")!).render(

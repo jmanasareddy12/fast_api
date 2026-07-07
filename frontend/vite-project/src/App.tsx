@@ -1,9 +1,7 @@
-// import Welcome from "./components/Welcome";
 import NavBar from "./components/NavBar";
-import CompanyCard from "./components/CompanyCard";
-import JobCard from "./components/JobCard";
+
 import Footer from "./components/Footer";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCompanies, updateCompany, deleteCompany, createCompany } from "./Services/CompanyService";
 import { getJobs, updateJob, deleteJob, createJob } from "./Services/JobService";
 import type { Company } from "./types/company"
@@ -11,10 +9,19 @@ import type { Job } from "./types/job"
 import Login from "./pages/login";
 import Register from "./pages/Register";
 import Chat from "./pages/Chat";
+import ResumeAnalyser from "./pages/ResumeAnalyzer";
+import JobMatch from "./pages/JobMatch";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Companies from "./pages/Companies";
+import Jobs from "./pages/Jobs";
 
+import RagAsk from "./pages/RagAsk";
 
-
-function App() {
+interface AppProps {
+  onLogout: () => void;
+}
+function App({ onLogout }: AppProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null)
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -22,14 +29,12 @@ function App() {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const [page, setPage] = useState<"login" | "register">("login");
 
+
   const handleLogin = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
   };
-    const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
+
 
   async function fetchData() {
     setLoading(true);
@@ -40,8 +45,8 @@ function App() {
       ]);
       setCompanies(companiesData);
       setJobs(jobsData);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     } finally {
       setLoading(false);
     }
@@ -55,8 +60,8 @@ function App() {
           company.id === updatedCompany.id ? updatedCompany : company
         )
       );
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
@@ -66,8 +71,8 @@ function App() {
       setCompanies(prev =>
         prev.filter(company => company.id !== id)
       );
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
@@ -75,8 +80,8 @@ function App() {
     try {
       const newCompany = await createCompany(company);
       setCompanies(prev => [...prev, newCompany]);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
@@ -88,8 +93,8 @@ function App() {
           j.id === updatedJob.id ? updatedJob : j
         )
       );
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
@@ -99,8 +104,8 @@ function App() {
       setJobs(prev =>
         prev.filter(job => job.id !== id)
       );
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
@@ -108,8 +113,8 @@ function App() {
     try {
       const newJob = await createJob(job);
       setJobs(prev => [...prev, newJob]);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
+    } catch (error) {
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
@@ -139,28 +144,71 @@ function App() {
   if (error) {
     return <div>Error: {error.message}</div>
   }
+  // some imported page modules may not have correct typing for JSX — cast to a component type
+  const CompaniesPage = Companies as React.ComponentType<any>;
+  const JobsPage = Jobs as React.ComponentType<any>;
+
   return (
     <>
-      <NavBar onLogout={handleLogout} />
-      {/* <Welcome /> */}
-      <br />
-      <Chat />
-      <br />
-      <CompanyCard
+      <NavBar onLogout={onLogout} />
+
+<Routes>
+
+  <Route
+    path="/"
+    element={<Home />}
+  />
+
+  <Route
+    path="/companies"
+    element={
+      <CompaniesPage
         companies={companies}
         jobs={jobs}
         onEdit={handleEdit}
         onDelete={handleDelete}
         onAdd={handleAdd}
       />
-      <JobCard
+    }
+  />
+
+  <Route
+    path="/jobs"
+    element={
+      <JobsPage
         jobs={jobs}
         companies={companies}
         onEdit={handleJobEdit}
         onDelete={handleJobDelete}
         onAdd={handleJobAdd}
       />
-      <Footer />
+    }
+  />
+
+  <Route
+    path="/chat"
+    element={<Chat />}
+  />
+
+  <Route
+    path="/resume"
+    element={<ResumeAnalyser />}
+  />
+
+  <Route
+    path="/jobmatch"
+    element={<JobMatch />}
+  />
+
+
+  <Route
+    path="/ask-ai"
+    element={<RagAsk />}
+  />
+
+</Routes>
+
+<Footer />
     </>
   )
 }

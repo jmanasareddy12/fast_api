@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { login } from "../Services/AuthService";
 import axios from "axios";
+import "./login.css"
 
 type Props = {
   onLogin: (token: string) => void;
@@ -48,44 +49,49 @@ function Login({ onLogin, onSwitchToRegister }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+  <div className="login-page">
+    <div className="login-card">
+      <h1 className="logo">TalentSpark</h1>
+      
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
+      <form onSubmit={handleSubmit}>
+        <h2>Welcome Back </h2>
 
-      <br />
-      <br />
+        <input
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-      <br />
-      <br />
-
-      <button type="submit">Login</button>
-
-      <br />
-      <br />
-
-      <p>
-        Don't have an account?
-        <button type="button" onClick={onSwitchToRegister}>
-          Register
+        <button type="submit" className="login-btn">
+          Login
         </button>
-      </p>
-    </form>
-  );
+
+        <p className="switch-text">
+          Don't have an account?
+        </p>
+
+        <button
+          type="button"
+          className="register-btn"
+          onClick={onSwitchToRegister}
+        >
+          Create Account
+        </button>
+      </form>
+    </div>
+  </div>
+);
 }
 
 export default Login;

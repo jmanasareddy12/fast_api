@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./NavBar.css";
 
 interface NavBarProps {
@@ -13,16 +14,19 @@ function NavBar({ onLogout }: NavBarProps) {
 
       <ul className="navbar-links">
         <li>
-          <a href="#">Home</a>
+          <Link to="/">Home</Link>
         </li>
+
         <li>
-          <a href="#">Companies</a>
+          <Link to="/companies">Companies</Link>
         </li>
+
         <li>
-          <a href="#">Jobs</a>
+          <Link to="/jobs">Jobs</Link>
         </li>
+
         <li>
-          <a href="#">Chat</a>
+          <Link to="/chat">Chat</Link>
         </li>
       </ul>
 

@@ -1,6 +1,6 @@
 import type {Job} from "../types/job";
 import type {Company} from "../types/company";
-
+import "./JobCard.css";
 import {useState} from "react";
 
 type Props = {
@@ -61,9 +61,10 @@ function JobCard({
         }
 
     return(
-        <div>
+        <div className="jobs-container">
+            <div className="job-grid">
             {jobs.map((job) => (
-                <div key={job.id}>
+                <div key={job.id} className="job-card">
                     {editJobId === job.id ? (
                         <>
                     <input type="text" value={editform.title} onChange={(e)=>setEditform({...editform,title:e.target.value})} placeholder="Title" />
@@ -75,10 +76,16 @@ function JobCard({
                     </>
                     ):
                     <>
-                    <h1>{job.title}</h1>
-                    <p>Description: {job.description}</p>
-                    <p>Salary: {job.salary}</p>
-                    <p>Company: {companies.find(c => c.id === job.company_id)?.name || job.company_id}</p>
+                    <h2 className="job-title">{job.title}</h2>
+                    <p className="job-info">
+    📝 {job.description}
+</p>
+                    <p className="job-info">
+    💰 ₹{job.salary.toLocaleString()}
+</p>
+                   <p className="job-info">
+    🏢 {companies.find(c => c.id === job.company_id)?.name || "Unknown"}
+</p>
                     <button
                         onClick={() => {
                             setEditJobId(job.id);
@@ -95,13 +102,14 @@ function JobCard({
                     </>}
                     <hr></hr>
                 </div>
-            ))}
+            ))}</div>
+            <div className="add-job">
             <h2>Add Job</h2>
             <input type="text" value={addform.title} onChange={(e)=>setAddform({...addform,title:e.target.value})} placeholder="Title" />
             <input type="text" value={addform.description} onChange={(e)=>setAddform({...addform,description:e.target.value})} placeholder="Description" />
             <input type="number" value={addform.salary} onChange={(e)=>setAddform({...addform,salary:Number(e.target.value)})} placeholder="Salary" />
             <input type="number" value={addform.company_id} onChange={(e)=>setAddform({...addform,company_id:Number(e.target.value)})} placeholder="Company ID" />
-            <button onClick={handleAdd}>Add</button>
+            <button onClick={handleAdd}>Add</button></div>
         </div>
     )
 }

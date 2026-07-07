@@ -20,7 +20,7 @@ Analyse the given resume text and provide:
 4.Areas to Improve
 5. Suggested Job Roles
 Keep the analysis short and structured.
-"""),("human","{resune_text}")])
+"""),("human","{resume_text}")])
 
 resume_chain = resume_prompt |llm
 

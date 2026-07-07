@@ -1,33 +1,48 @@
-# pyrefly: ignore [missing-import]
 from fastapi import FastAPI
-from routers import job,auth,company, chat
-from models import job as job_model, company as company_model,users as user_model
-from database import Base, engine, SessionLocal
-# pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from routers import company, job, auth,rag
+from routers.chat import router as chat_router
+
+from database import Base, engine
+
+from models import (
+    company as company_model,
+    job as job_model,
+    users as user_model,
+)
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(
+    title="TalentSpark API",
+    version="1.0.0"
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],   # Change this in production
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
-#Base.metadata.create_all(bind=job_model.engine)
-app.include_router(auth.router)
+
+
 app.include_router(company.router)
 app.include_router(job.router)
-app.include_router(chat.router)
+app.include_router(auth.router)
+app.include_router(chat_router)
+app.include_router(rag.router)
+
+
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
-
+    return {"message": "TalentSpark Backend is Running"}
 
 @app.get("/about")
 def read_about():
-    return {"About": "This is a FastAPI application."}
+    return {"about": "This is the TalentSpark API backend"}
 
 @app.get("/contact")
 def read_contact():
-    return {"Contact": "jmanasareddy12@gmail.com"} 
+    return {"contact": "TalentSpark Contact API"}

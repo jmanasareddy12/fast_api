@@ -1,6 +1,6 @@
-export interface ChatRequest {
-  message: string;
-  session_id: string;
+export interface ChatMessage {
+    role: "user" | "assistant" | "system";
+    content: string;
 }
 
 export interface ChatResponse {

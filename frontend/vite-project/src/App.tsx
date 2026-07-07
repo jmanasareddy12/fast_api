@@ -12,6 +12,8 @@ import Login from "./pages/login";
 import Register from "./pages/Register";
 import Chat from "./pages/Chat";
 
+
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null)
@@ -23,6 +25,10 @@ function App() {
   const handleLogin = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
+  };
+    const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
   };
 
   async function fetchData() {
@@ -135,7 +141,7 @@ function App() {
   }
   return (
     <>
-      <NavBar />
+      <NavBar onLogout={handleLogout} />
       {/* <Welcome /> */}
       <br />
       <Chat />

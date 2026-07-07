@@ -1,13 +1,17 @@
 import api from "./api";
-import type { ChatRequest, ChatResponse } from "../types/Chat";
 
-export const askCareer = async (
-  data: ChatRequest
-): Promise<ChatResponse> => {
-  const response = await api.post<ChatResponse>(
-    "/chat/ask_career",
-    data
-  );
+interface ChatResponse {
+  response: string;
+}
 
-  return response.data;
-};
+export async function askCareerChatbot(
+  message: string,
+  sessionId: string
+): Promise<string> {
+  const response = await api.post<ChatResponse>("/chat/ask_career", {
+    message,
+    session_id: sessionId,
+  });
+
+  return response.data.response;
+}

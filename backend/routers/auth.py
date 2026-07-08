@@ -38,39 +38,18 @@ async def register(user:UserCreate,db:AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Database error during registration: {str(e)}")
 
 
-
-@router.post("/login", response_model=Token)
-async def login(
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    db: AsyncSession = Depends(get_db)
-):
-    user = db.query(User).filter(
-        User.email == form_data.username
-    ).first()
-
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
-
-    if not verify_password(
-        form_data.password,
-        user.hashed_password
-    ):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect password"
-        )
-
-    access_token = create_access_token(
-        data={
-            "sub": str(user.id),
-            "role": user.role
-        }
-    )
-
-    return {
-        "access_token": access_token,
-        "token_type": "Bearer"
-    }
+@router.post("/login",response_model=Token)
+async def login(form_data:OAuth2PasswordRequestForm=Depends(),db:AsyncSession = Depends(get_db)):
+    try:
+        result = await db.execute(select(User).filter(User.email == form_data.username))
+        existing_user = result.scalars().first()
+        if not existing_user:
+            raise HTTPException(status_code=404,detail="User not found")
+        if not verify_password(form_data.password,existing_user.hashed_password):
+            raise HTTPException(status_code=401,detail="Incorrect password")
+        access_token=create_access_token(data={"sub":str(existing_user.id),"role":existing_user.role})
+        return {"access_token":access_token,"token_type":"Bearer"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Authentication server error: {str(e)}")

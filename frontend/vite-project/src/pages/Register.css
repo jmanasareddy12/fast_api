@@ -1,27 +1,13 @@
-body {
-  margin: 0;
-  background: var(--bg-secondary);
-  font-family: var(--sans);
-}
-
-.login-page {
+.register-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: var(--spacing-lg);
+  background: var(--bg-secondary);
 }
 
-.logo {
-  text-align: center;
-  color: var(--primary);
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: var(--spacing-md);
-  font-family: var(--heading);
-}
-
-.login-card {
+.register-card {
   width: 380px;
   background: var(--bg);
   padding: var(--spacing-2xl);
@@ -30,7 +16,7 @@ body {
   border: 1px solid var(--border);
 }
 
-.login-card h2 {
+.register-card h2 {
   text-align: center;
   margin-bottom: var(--spacing-xl);
   color: var(--text-h);
@@ -38,28 +24,36 @@ body {
   font-weight: 700;
 }
 
-.login-card input {
-  width: 100%;
+.register-card form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.register-card input {
   padding: var(--spacing-md);
-  margin: var(--spacing-md) 0;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   font-size: 15px;
   font-family: var(--sans);
-  box-sizing: border-box;
   color: var(--text-h);
   background: var(--bg);
   transition: all var(--transition-base);
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.login-card input:focus {
+.register-card input:focus {
   outline: none;
-  border: 2px solid var(--primary);
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.login-card button {
-  width: 100%;
+.register-card input::placeholder {
+  color: var(--text-secondary);
+}
+
+.register-card button[type="submit"] {
   padding: var(--spacing-md);
   background: var(--primary);
   color: white;
@@ -68,60 +62,71 @@ body {
   cursor: pointer;
   font-size: 16px;
   font-weight: 700;
-  margin-top: var(--spacing-md);
   transition: all var(--transition-base);
+  width: 100%;
 }
 
-.login-card button:hover {
+.register-card button[type="submit"]:hover {
   background: var(--primary-dark);
   box-shadow: var(--shadow-md);
 }
 
-.login-card button:focus-visible {
+.register-card button[type="submit"]:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-.login-card button:active {
+.register-card button[type="submit"]:active {
   transform: scale(0.98);
 }
 
-.login-card p {
+.register-card p {
   text-align: center;
-  margin-top: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
   color: var(--text-secondary);
   font-size: 15px;
 }
 
-.login-card a {
+.register-card button[type="button"] {
+  background: none;
+  border: none;
   color: var(--primary);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-size: 15px;
   transition: color var(--transition-base);
 }
 
-.login-card a:hover {
+.register-card button[type="button"]:hover {
   color: var(--primary-dark);
   text-decoration: underline;
 }
 
-.login-card a:focus-visible {
+.register-card button[type="button"]:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
+.register-divider {
+  margin: var(--spacing-lg) 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
 @media (max-width: 480px) {
-  .login-card {
+  .register-card {
     width: 100%;
     max-width: 380px;
     padding: var(--spacing-xl);
   }
 
-  .logo {
-    font-size: 36px;
+  .register-card h2 {
+    font-size: 24px;
   }
 
-  .login-card h2 {
-    font-size: 24px;
+  .register-card form {
+    gap: var(--spacing-md);
   }
 }

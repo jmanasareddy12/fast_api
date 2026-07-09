@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import company, job, auth,rag
+from routers import company, job, auth, rag
 from routers.chat import router as chat_router
 
 from database import Base, engine
@@ -12,33 +12,29 @@ from models import (
     users as user_model,
 )
 
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title="TalentSpark API",
     version="1.0.0"
 )
 
+@app.on_event("startup")
+async def startup():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # Change this in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.on_event("startup")
-async def startup_event():
-    from database import engine
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
 
 app.include_router(company.router)
 app.include_router(job.router)
 app.include_router(auth.router)
 app.include_router(chat_router)
 app.include_router(rag.router)
-
 
 @app.get("/")
 def read_root():

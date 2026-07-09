@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { register } from "../Services/AuthService";
 import axios from "axios";
+import "./Register.css";
 
 type Props = {
   onSwitchToLogin: () => void;
@@ -44,58 +45,54 @@ function Register({ onSwitchToLogin }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Register</h2>
+    <div className="register-page">
+      <div className="register-card">
+        <h2>Register</h2>
 
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
-        required
-      />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Full Name"
+            required
+          />
 
-      <br />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email Address"
+            required
+          />
 
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
 
-      <br />
+          <input
+            type="text"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            placeholder="Role (admin/user)"
+            required
+          />
 
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
+          <button type="submit">Create Account</button>
+        </form>
 
-      <br />
-
-      <input
-        type="text"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        placeholder="Role (admin/user)"
-        required
-      />
-
-      <br />
-
-      <button type="submit">Register</button>
-
-      <p>
-        Already have an account?{" "}
-        <button type="button" onClick={onSwitchToLogin}>
-          Login
-        </button>
-      </p>
-    </form>
+        <p>
+          Already have an account?{" "}
+          <button type="button" onClick={onSwitchToLogin}>
+            Login here
+          </button>
+        </p>
+      </div>
+    </div>
   );
 }
 

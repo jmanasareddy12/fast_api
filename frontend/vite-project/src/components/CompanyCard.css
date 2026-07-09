@@ -1,0 +1,274 @@
+.companies-container {
+  max-width: 1200px;
+  margin: var(--spacing-3xl) auto;
+  padding: var(--spacing-lg);
+}
+
+.companies-container h1 {
+  font-size: 42px;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  font-weight: 700;
+}
+
+.company-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-3xl);
+}
+
+.company-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+.company-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+.company-card h2 {
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.company-card p {
+  margin: var(--spacing-md) 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.company-card p strong {
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+.company-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border);
+}
+
+.company-actions button {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all var(--transition-base);
+}
+
+.edit-company-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.edit-company-btn:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.delete-company-btn {
+  background: var(--danger);
+  color: white;
+}
+
+.delete-company-btn:hover {
+  background: var(--danger-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.company-edit-form {
+  background: var(--bg-secondary);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  margin: var(--spacing-lg) 0;
+}
+
+.company-edit-form h3 {
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.company-edit-form input {
+  width: 100%;
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-sizing: border-box;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text-h);
+  background: var(--bg);
+  transition: all var(--transition-base);
+}
+
+.company-edit-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.company-edit-form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.company-edit-form-actions button {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all var(--transition-base);
+}
+
+.save-btn {
+  background: var(--success);
+  color: white;
+}
+
+.save-btn:hover {
+  background: var(--success-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.cancel-btn {
+  background: var(--border);
+  color: var(--text-h);
+}
+
+.cancel-btn:hover {
+  background: var(--border-light);
+}
+
+.add-company-section {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-md);
+}
+
+.add-company-section h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.add-company-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.add-company-form input {
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text-h);
+  background: var(--bg);
+  transition: all var(--transition-base);
+}
+
+.add-company-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.add-company-form button {
+  padding: var(--spacing-lg);
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all var(--transition-base);
+}
+
+.add-company-form button:hover {
+  background: var(--success-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.company-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--spacing-2xl) 0;
+}
+
+@media (max-width: 768px) {
+  .companies-container {
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-md);
+  }
+
+  .companies-container h1 {
+    font-size: 32px;
+  }
+
+  .company-list {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .company-actions {
+    flex-direction: column;
+  }
+
+  .company-actions button {
+    width: 100%;
+  }
+
+  .company-edit-form-actions {
+    flex-direction: column;
+  }
+
+  .company-edit-form-actions button {
+    width: 100%;
+  }
+
+  .add-company-section {
+    padding: var(--spacing-xl);
+  }
+
+  .add-company-form {
+    gap: var(--spacing-md);
+  }
+
+  .add-company-form input {
+    font-size: 14px;
+    padding: var(--spacing-sm);
+  }
+}

@@ -20,16 +20,20 @@ def create_access_token(data: dict, expires_delta: timedelta
     encoded_jwt = jwt.encode(to_encode, key=SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def verify_token(token: str, db: Session = Depends(get_db)):
+def verify_token(token: str):
     if not token or token in ("undefined", "null"):
         raise HTTPException(status_code=401, detail="No token provided")
-    try:
-        to_decode = jwt.decode(token, key=SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = int(to_decode["sub"])
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
 
-    current_user = db.query(users.User).filter(users.User.id == user_id).first()
-    if current_user is None:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    return current_user
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+        return payload
+
+    except JWTError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired token"
+        )

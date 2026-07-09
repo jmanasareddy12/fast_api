@@ -1,47 +1,99 @@
 .home {
   max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: var(--spacing-3xl) auto;
+  padding: var(--spacing-lg);
 }
 
 .hero {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: var(--spacing-3xl);
 }
 
 .hero h1 {
   font-size: 42px;
-  color: #2563eb;
-  margin-bottom: 10px;
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 700;
 }
 
 .hero p {
-  color: #555;
+  color: var(--text-secondary);
   font-size: 18px;
+  line-height: 1.6;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
+  gap: var(--spacing-xl);
 }
 
 .dashboard-card {
-  background: white;
-  border-radius: 14px;
-  padding: 30px;
+  background: var(--bg);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
   text-align: center;
   text-decoration: none;
-  color: black;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-  transition: 0.25s;
+  color: var(--text-h);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(37,99,235,.25);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+.dashboard-card:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .dashboard-card h2 {
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-md);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.dashboard-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.dashboard-card-icon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .home {
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-md);
+  }
+
+  .hero {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .dashboard-card {
+    padding: var(--spacing-xl);
+  }
 }

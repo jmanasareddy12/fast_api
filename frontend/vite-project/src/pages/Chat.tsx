@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { askCareerChatbot } from "../Services/ChatService";
+import "./Chat.css";
 
 interface Message {
   sender: "user" | "bot";
@@ -54,12 +55,12 @@ function Chat() {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="chat-container">
       <h2>Career Guidance Chatbot</h2>
 
-      <div style={styles.chatBox}>
+      <div className="chat-box">
         {messages.length === 0 && (
-          <div style={styles.placeholder}>
+          <div className="chat-placeholder">
             Ask me anything about careers, skills, or job paths.
           </div>
         )}
@@ -67,92 +68,35 @@ function Chat() {
         {messages.map((msg, i) => (
           <div
             key={i}
-            style={{
-              ...styles.message,
-              textAlign: msg.sender === "user" ? "right" : "left",
-              color: msg.sender === "user" ? "#0b5ed7" : "#222",
-            }}
+            className={`chat-message ${msg.sender}`}
           >
-            <strong>{msg.sender === "user" ? "You" : "Bot"}:</strong>{" "}
+            <strong>{msg.sender === "user" ? "You" : "Bot"}:</strong>
             {msg.text}
           </div>
         ))}
 
-        {loading && <div style={styles.typing}>Bot is typing...</div>}
+        {loading && <div className="chat-typing">Bot is typing...</div>}
         <div ref={bottomRef} />
       </div>
 
-      <div style={styles.inputRow}>
+      <div className="chat-input-row">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Type your question..."
-          style={styles.input}
           disabled={loading}
         />
         <button
           onClick={sendMessage}
           disabled={loading}
-          style={{
-            ...styles.button,
-            opacity: loading ? 0.6 : 1,
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
         >
-          Send
+          {loading ? "Sending..." : "Send"}
         </button>
       </div>
     </div>
   );
 }
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    maxWidth: 600,
-    margin: "40px auto",
-    fontFamily: "Arial, sans-serif",
-  },
-  chatBox: {
-    background: "#fff",
-    borderRadius: 8,
-    padding: 20,
-    height: 400,
-    overflowY: "auto",
-    boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
-  },
-  placeholder: {
-    color: "#999",
-    textAlign: "center",
-    marginTop: 150,
-  },
-  message: {
-    margin: "10px 0",
-    lineHeight: 1.4,
-  },
-  typing: {
-    color: "#888",
-    fontStyle: "italic",
-  },
-  inputRow: {
-    display: "flex",
-    marginTop: 15,
-  },
-  input: {
-    flex: 1,
-    padding: 10,
-    borderRadius: 6,
-    border: "1px solid #ccc",
-  },
-  button: {
-    padding: "10px 20px",
-    marginLeft: 8,
-    border: "none",
-    background: "#0b5ed7",
-    color: "white",
-    borderRadius: 6,
-  },
-};
 
 export default Chat;

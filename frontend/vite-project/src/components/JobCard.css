@@ -1,121 +1,164 @@
 .jobs-container {
-    max-width: 1200px;
-    margin: 40px auto;
+  max-width: 1200px;
+  margin: var(--spacing-3xl) auto;
+  padding: var(--spacing-lg);
 }
 
 .job-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--spacing-xl);
 }
 
 .job-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
-    transition: .25s;
+  background: var(--bg);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
 }
 
 .job-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 .job-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #1f2937;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-h);
 }
 
-.job-info{
-    margin:10px 0;
-    color:#555;
+.job-info {
+  margin: var(--spacing-md) 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-.job-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
+.job-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
 }
 
-.edit-btn{
-    flex:1;
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
+.edit-btn {
+  flex: 1;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-base);
+  font-size: 15px;
 }
 
-.delete-btn{
-    flex:1;
-    background:#ef4444;
-    color:white;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
+.edit-btn:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
 }
 
-.add-job{
-    margin-top:60px;
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+.edit-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
-.add-job input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border:1px solid #ddd;
+.delete-btn {
+  flex: 1;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-base);
+  font-size: 15px;
 }
 
-.add-job button{
-    width:100%;
-    padding:12px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-.job-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
+.delete-btn:hover {
+  background: var(--danger-dark);
+  box-shadow: var(--shadow-md);
 }
 
-.edit-btn{
-    flex:1;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:8px;
-    padding:10px;
-    cursor:pointer;
-    font-weight:600;
+.delete-btn:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
 }
 
-.delete-btn{
-    flex:1;
-    background:#ef4444;
-    color:white;
-    border:none;
-    border-radius:8px;
-    padding:10px;
-    cursor:pointer;
-    font-weight:600;
+.add-job {
+  margin-top: var(--spacing-3xl);
+  background: var(--bg);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
 }
 
-.edit-btn:hover{
-    background:#1d4ed8;
+.add-job h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-h);
+  font-size: 24px;
 }
 
-.delete-btn:hover{
-    background:#dc2626;
+.add-job input {
+  width: 100%;
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  box-sizing: border-box;
+  font-family: var(--sans);
+  transition: all var(--transition-base);
+}
+
+.add-job input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.add-job button {
+  width: 100%;
+  padding: var(--spacing-md);
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-base);
+  font-size: 16px;
+}
+
+.add-job button:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.add-job button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .jobs-container {
+    margin: var(--spacing-xl) auto;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .job-buttons {
+    flex-direction: column;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 100%;
+  }
 }

@@ -5,6 +5,7 @@ import {
   ragSearch,
 } from "../Services/RagService";
 import type { SemanticSearchResult } from "../types/rag";
+import "./JobMatch.css";
 
 interface JobMatchResult {
   job_id: number;
@@ -84,78 +85,81 @@ function JobMatch() {
     }
   };
 
-    return (
-        <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto", textAlign: "left" }}>
-            <h2>Smart Job Match</h2>
+  return (
+    <div className="jobmatch-container">
+      <h2>Smart Job Match</h2>
 
-            <div style={{ marginBottom: "20px", padding: "15px", border: "1px solid #ccc", borderRadius: "5px" }}>
-                <h3>Step 1: Embed Jobs into Vector DB</h3>
-                <p style={{ fontSize: "14px", marginBottom: "10px" }}>Click below to embed all jobs from the database into Qdrant for semantic search.</p>
-                <button onClick={handleEmbed} disabled={loading} style={{ padding: "8px 20px" }}>
-                    {loading ? "Embedding..." : "Embed All Jobs"}
-                </button>
-                {embedMsg && <p style={{ marginTop: "10px", color: "green" }}>{embedMsg}</p>}
-            </div>
+      <div className="jobmatch-section">
+        <h3>Step 1: Embed Jobs into Vector DB</h3>
+        <p>Click below to embed all jobs from the database into Qdrant for semantic search.</p>
+        <button onClick={handleEmbed} disabled={loading}>
+          {loading ? "Embedding..." : "Embed All Jobs"}
+        </button>
+        {embedMsg && <p className="jobmatch-message">{embedMsg}</p>}
+      </div>
 
-            <div style={{ marginBottom: "20px", padding: "15px", border: "1px solid #ccc", borderRadius: "5px" }}>
-                <h3>Step 2: Semantic Job Search</h3>
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search jobs... e.g. 'python backend developer'"
-                    style={{ width: "70%", padding: "8px", marginRight: "10px" }}
-                />
-                <button onClick={handleSearch} disabled={loading || !searchQuery.trim()} style={{ padding: "8px 20px" }}>
-                    Search
-                </button>
-                {searchResults.length > 0 && (
-                    <div style={{ marginTop: "10px" }}>
-                        {searchResults.map((r, i) => (
-                            <div key={i} style={{ padding: "10px", borderBottom: "1px solid #eee" }}>
-                                <strong>{r.title}</strong> — Score: {r.score}
-                                <p>{r.description}</p>
-                                <small>Salary: {r.salary}</small>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            <div style={{ padding: "15px", border: "1px solid #ccc", borderRadius: "5px" }}>
-                <h3>Step 3: Match Your Profile</h3>
-                <input
-                    type="text"
-                    value={skills}
-                    onChange={(e) => setSkills(e.target.value)}
-                    placeholder="Your skills... e.g. 'Python, React, SQL'"
-                    style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-                />
-                <input
-                    type="text"
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                    placeholder="Your experience... e.g. '3 years in web development'"
-                    style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-                />
-                <button onClick={handleMatch} disabled={loading || !skills.trim()} style={{ padding: "8px 20px" }}>
-                    {loading ? "Matching..." : "Find Matching Jobs"}
-                </button>
-                {matches.length > 0 && (
-                    <div style={{ marginTop: "10px" }}>
-                        <h4>Top Matches</h4>
-                        {matches.map((m, i) => (
-                            <div key={i} style={{ padding: "10px", borderBottom: "1px solid #eee" }}>
-                                <strong>{m.title}</strong> — Match: {m.match_score}%
-                                <p>{m.description}</p>
-                                <small>Salary: {m.salary}</small>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+      <div className="jobmatch-section">
+        <h3>Step 2: Semantic Job Search</h3>
+        <div className="jobmatch-input-group">
+          <input
+            type="text"
+            className="jobmatch-full-width"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search jobs... e.g. 'python backend developer'"
+          />
+          <button onClick={handleSearch} disabled={loading || !searchQuery.trim()}>
+            Search
+          </button>
         </div>
-    );
+        {searchResults.length > 0 && (
+          <div className="jobmatch-results">
+            {searchResults.map((r, i) => (
+              <div key={i} className="jobmatch-item">
+                <strong>{r.title}</strong> — Score: {r.score}
+                <p>{r.description}</p>
+                <small>Salary: {r.salary}</small>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="jobmatch-section">
+        <h3>Step 3: Match Your Profile</h3>
+        <input
+          type="text"
+          className="jobmatch-full-width"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+          placeholder="Your skills... e.g. 'Python, React, SQL'"
+        />
+        <input
+          type="text"
+          className="jobmatch-full-width"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
+          placeholder="Your experience... e.g. '3 years in web development'"
+          style={{ marginTop: "var(--spacing-md)" }}
+        />
+        <button onClick={handleMatch} disabled={loading || !skills.trim()} style={{ marginTop: "var(--spacing-lg)" }}>
+          {loading ? "Matching..." : "Find Matching Jobs"}
+        </button>
+        {matches.length > 0 && (
+          <div className="jobmatch-results">
+            <h4>Top Matches</h4>
+            {matches.map((m, i) => (
+              <div key={i} className="jobmatch-item">
+                <strong>{m.title}</strong> — Match: {m.match_score}%
+                <p>{m.description}</p>
+                <small>Salary: {m.salary}</small>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default JobMatch;

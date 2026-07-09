@@ -1,0 +1,120 @@
+.jobs-search-section {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin: var(--spacing-2xl) var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.jobs-search-input {
+  min-width: 300px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--bg);
+  transition: all var(--transition-base);
+}
+
+.jobs-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.jobs-search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.jobs-search-button {
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.jobs-search-button:hover:not(:disabled) {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.jobs-search-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.jobs-search-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.jobs-search-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.jobs-no-results {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  color: var(--text-secondary);
+  font-size: 15px;
+  padding: var(--spacing-lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.jobs-loading {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-style: italic;
+  margin-top: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .jobs-search-section {
+    flex-direction: column;
+    margin: var(--spacing-xl) var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+
+  .jobs-search-input {
+    min-width: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .jobs-search-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .jobs-search-section {
+    margin: var(--spacing-lg) var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+
+  .jobs-search-input {
+    font-size: 14px;
+    padding: var(--spacing-sm);
+  }
+
+  .jobs-search-button {
+    font-size: 14px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+}

@@ -1,0 +1,21 @@
+footer {
+  background: var(--info);
+  color: white;
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  margin-top: auto;
+  box-shadow: var(--shadow-sm);
+  font-size: 15px;
+}
+
+footer p {
+  margin: 0;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  footer {
+    padding: var(--spacing-lg);
+    font-size: 14px;
+  }
+}

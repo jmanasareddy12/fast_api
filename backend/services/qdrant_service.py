@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from models.job import Job
+from models.company import Company
 
 load_dotenv()
 
@@ -44,7 +45,8 @@ def embed_text(text: str) -> list[float]:
 
 async def embed_all_jobs(db: AsyncSession) -> int:
     ensure_collection()
-    jobs = await db.query(Job).all()
+    result = await db.execute(select(Job))
+    jobs = result.scalars().all()
     if not jobs:
         return 0
 

@@ -9,7 +9,7 @@ load_dotenv()
 
 llm=ChatGroq(
     model="llama-3.3-70b-versatile",
-    api_key=os.getenv("API_KEY"),
+    api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.7,
 )
 
@@ -32,7 +32,7 @@ chat_with_memory=RunnableWithMessageHistory(
     runnable=chain_with_memory,
     get_session_history=get_history,
     input_messages_key="user_query",
-    message_history="chat_history"
+    history_messages_key="chat_history"
 )
 def ask_career_advice(session_id: str, user_query: str):
     response = chat_with_memory.invoke(

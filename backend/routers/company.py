@@ -1,92 +1,174 @@
-from fastapi import APIRouter,HTTPException,Depends,status
-from schemas.company import CompanyCreate, CompanyUpdate, CompanyResponse
+from fastapi import APIRouter, HTTPException, Depends, status
+from schemas.company import (
+    CompanyCreate,
+    CompanyUpdate,
+    CompanyResponse,
+    CompanySimpleResponse,
+)
 from models.company import Company
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from database import get_db
-from utils.oauth2 import role_required,get_current_user
-router = APIRouter(prefix="/company",tags=["company"])
+from utils.oauth2 import role_required, get_current_user
 
-@router.post("/",status_code=status.HTTP_201_CREATED,response_model=CompanyResponse)
-async def create_company(company: CompanyCreate,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin"]))):
+router = APIRouter(prefix="/company", tags=["company"])
+
+
+# ---------------- CREATE ----------------
+@router.post(
+    "/",
+    status_code=status.HTTP_201_CREATED,
+    response_model=CompanySimpleResponse,
+)
+async def create_company(
+    company: CompanyCreate,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(role_required(["admin"])),
+):
     try:
-        db_company=Company(**company.dict())
+        db_company = Company(**company.dict())
+
         db.add(db_company)
         await db.commit()
         await db.refresh(db_company)
+
         return db_company
+
     except Exception as e:
         await db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error creating company: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Database error creating company: {str(e)}"
+        )
 
 
-@router.get("/",status_code=status.HTTP_200_OK,response_model=list[CompanyResponse])
-async def get_all_company(db:AsyncSession=Depends(get_db),current_user=Depends(get_current_user)):
+# ---------------- GET ALL ----------------
+@router.get(
+    "/",
+    response_model=list[CompanyResponse]
+)
+async def get_all_company(
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     try:
         result = await db.execute(
             select(Company).options(selectinload(Company.jobs))
         )
-        companies = result.scalars().all()
-        return companies
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error retrieving companies: {str(e)}")
 
-@router.get("/{company_id}",status_code=status.HTTP_200_OK,response_model=CompanyResponse)
-async def get_company(company_id: int,db:AsyncSession=Depends(get_db),current_user=Depends(get_current_user)):
+        return result.scalars().all()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+
+# ---------------- GET ONE ----------------
+@router.get(
+    "/{company_id}",
+    response_model=CompanyResponse,
+)
+async def get_company(
+    company_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     try:
         result = await db.execute(
-    select(Company)
-    .options(selectinload(Company.jobs))
-    .filter(Company.id == company_id)
-)
-        company = result.scalars().first()
+            select(Company)
+            .options(selectinload(Company.jobs))
+            .where(Company.id == company_id)
+        )
+
+        company = result.scalar_one_or_none()
+
         if not company:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Company not found")
+            raise HTTPException(404, "Company not found")
+
         return company
+
     except HTTPException:
         raise
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error retrieving company: {str(e)}")
 
-@router.put("/{company_id}",status_code=status.HTTP_201_CREATED)
-async def update_company(company_id: int, company: CompanyUpdate,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin"]))):
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+
+# ---------------- UPDATE ----------------
+@router.put(
+    "/{company_id}",
+    response_model=CompanySimpleResponse,
+)
+async def update_company(
+    company_id: int,
+    company: CompanyUpdate,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(role_required(["admin"])),
+):
     try:
-        result = await db.execute(select(Company).filter(Company.id == company_id))
-        db_company = result.scalars().first()
+        result = await db.execute(
+            select(Company).where(Company.id == company_id)
+        )
+
+        db_company = result.scalar_one_or_none()
+
         if not db_company:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Company not found")
+            raise HTTPException(404, "Company not found")
+
         for key, value in company.dict(exclude_unset=True).items():
             setattr(db_company, key, value)
+
         await db.commit()
         await db.refresh(db_company)
+
         return db_company
+
     except HTTPException:
         raise
+
     except Exception as e:
         await db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error updating company: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
 
-@router.delete("/{company_id}",status_code=status.HTTP_204_NO_CONTENT)
-async def delete_company(company_id: int,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin"]))):
+
+# ---------------- DELETE ----------------
+@router.delete(
+    "/{company_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def delete_company(
+    company_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(role_required(["admin"])),
+):
     try:
-        result = await db.execute(select(Company).filter(Company.id == company_id))
-        db_company = result.scalars().first()
+        result = await db.execute(
+            select(Company).where(Company.id == company_id)
+        )
+
+        db_company = result.scalar_one_or_none()
+
         if not db_company:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Company not found")
+            raise HTTPException(404, "Company not found")
+
         await db.delete(db_company)
         await db.commit()
-        return {"message": "Company deleted successfully"}
+
     except HTTPException:
         raise
+
     except Exception as e:
         await db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error deleting company: {str(e)}")
-
-# @router.get("/")
-# def read_company():
-#     return {"company": "Company root"}
-
-# @router.get("/{company_id}")
-# def read_company(company_id: int):
-#     return {"company_id": company_id}
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
